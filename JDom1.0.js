@@ -4,30 +4,30 @@
  * A performance-optimization algorithm, like a diffing algorithm in React, might be added in future versions.
  */
 export default class JDom {
-     /**
-     * Creates a new JDom instance.
-     * 
-     * @param {Object} node - The structure of the DOM element.
-     * @param {String} node.type - The tag name of the top-level element.
-     * @param {Object} [node.attr] - Attributes to set on the element.
-     * @param {string|HTMLElement|JDom} [node.content] - Content to append to the element.
-     * @param {Object} [node.events] - Events to add to the element, e.g., { click: (e) => { console.log("clicked!") } }.
-     * @param {Array.<Object|string|HTMLElement|JDom>} [node.children] - Children to append to the element.
-     */
+    /**
+    * Creates a new JDom instance.
+    * 
+    * @param {Object} node - The structure of the DOM element.
+    * @param {String} node.type - The tag name of the top-level element.
+    * @param {Object} [node.attr] - Attributes to set on the element.
+    * @param {string|HTMLElement|JDom} [node.content] - Content to append to the element.
+    * @param {Object} [node.events] - Events to add to the element, e.g., { click: (e) => { console.log("clicked!") } }.
+    * @param {Array.<Object|string|HTMLElement|JDom>} [node.children] - Children to append to the element.
+    */
     constructor(node) {
         this.node = node;
         this.element = this._createElement(this.node);
         this.isJDOM = true;
     }
 
-       /**
-     * Creates an element and attaches event listeners.
-     * @param {Object} node - The node configuration object.
-     * @returns {HTMLElement} The created element.
-     */
+    /**
+  * Creates an element and attaches event listeners.
+  * @param {Object} node - The node configuration object.
+  * @returns {HTMLElement} The created element.
+  */
     _createElement(node) {
         const ele = document.createElement(node.tag || 'div');
-    
+
         // Set attributes
         if (node.attr) {
             for (const [key, value] of Object.entries(node.attr)) {
@@ -40,12 +40,12 @@ export default class JDom {
                 }
             }
         }
-    
+
         // Set content
         if (node.content) {
             this._appendContent(ele, node.content);
         }
-    
+
         // Add events
         if (node.events) {
             if (!this.eventListeners) {
@@ -56,7 +56,7 @@ export default class JDom {
                 this.eventListeners.set(event, handler);
             }
         }
-    
+
         // Append children
         if (node.children) {
             for (const child of node.children) {
@@ -74,7 +74,7 @@ export default class JDom {
                 }
             }
         }
-    
+
         return ele;
     }
     /**
@@ -109,16 +109,16 @@ export default class JDom {
     }
 
 
-         /**
-     * Appends new content to the current element.
-     * 
-     * @param {string|HTMLElement|JDom} newContent - The content to append. This can be a string, an existing HTML element, or a JDom instance.
-     * @param {string} [position="after"] - The position to append the new content. 
-     *                                      Use "after" to append as the last child, or "before" to insert as the first child.
-     */
+    /**
+* Appends new content to the current element.
+* 
+* @param {string|HTMLElement|JDom} newContent - The content to append. This can be a string, an existing HTML element, or a JDom instance.
+* @param {string} [position="after"] - The position to append the new content. 
+*                                      Use "after" to append as the last child, or "before" to insert as the first child.
+*/
     add(newContent, position = "after") {
         let newElement;
-    
+
         if (newContent.isJDOM) {
             newElement = newContent.element;
         } else if (typeof newContent === "string") {
@@ -130,7 +130,7 @@ export default class JDom {
         } else {
             throw new Error("Invalid content type");
         }
-    
+
         if (position === "after") {
             this.element.appendChild(newElement);
         } else if (position === "before") {
@@ -157,10 +157,10 @@ export default class JDom {
         this.element = newElement;
     }
 
-     /**
-     * Removes the current element from the DOM.
-     * @param {String} [selector] (Optional)The id or class name of the element to be removed.
-     */
+    /**
+    * Removes the current element from the DOM.
+    * @param {String} [selector] (Optional)The id or class name of the element to be removed.
+    */
     remove(selector) {
         if (selector) {
             const elementsToRemove = document.querySelectorAll(selector);
@@ -180,8 +180,8 @@ export default class JDom {
      * Hides the current element or the specified element.
      * @param {String} [selector] (Optional)The id or class name of the element to be hidden.
      */
-    hide(selector){
-        if (selector){
+    hide(selector) {
+        if (selector) {
             const elementsToHide = document.querySelectorAll(selector);
             elementsToHide.forEach(element => {
                 element.style.display = 'none';
@@ -191,35 +191,35 @@ export default class JDom {
         }
     }
 
-             /**
-         * Shows the current element or the specified element.
-         * @param {String} [selector] (Optional) The id or class name of the element to be shown.
-         */
-        show(selector) {
-            const showElement = (element) => {
-                const previousDisplay = element.getAttribute('data-previous-display');
-                if (previousDisplay) {
-                    element.style.display = previousDisplay;
-                } else {
-                    element.style.removeProperty('display');
-                }
-            };
-        
-            if (selector) {
-                const elementsToShow = document.querySelectorAll(selector);
-                elementsToShow.forEach(element => {
-                    showElement(element);
-                });
+    /**
+* Shows the current element or the specified element.
+* @param {String} [selector] (Optional) The id or class name of the element to be shown.
+*/
+    show(selector) {
+        const showElement = (element) => {
+            const previousDisplay = element.getAttribute('data-previous-display');
+            if (previousDisplay) {
+                element.style.display = previousDisplay;
             } else {
-                showElement(this.element);
+                element.style.removeProperty('display');
             }
+        };
+
+        if (selector) {
+            const elementsToShow = document.querySelectorAll(selector);
+            elementsToShow.forEach(element => {
+                showElement(element);
+            });
+        } else {
+            showElement(this.element);
         }
+    }
 
     /**
      * Update the style of the instance of current object.
      * @param {Object} styleJson - The style object to update the element with. this element will be passed to node.attr.style. An example of styleJson is {color: 'red', backgroundColor: 'blue'}
      */
-    updateStyle(styleJson) {
+    style(styleJson) {
         if (typeof styleJson !== 'object' || styleJson === null) {
             throw new Error('Invalid styleJson object');
         }
@@ -229,36 +229,36 @@ export default class JDom {
         }
     }
 
-/**
- * Adds an event listener to the current or selected element.
- * If the same type of event already exists, it removes the previous one and adds the new event.
- * @param {string} type - The event type, e.g., 'click'.
- * @param {Function} callback - The callback function for the event.
- * @param {string|HTMLElement} [selector] - Optional selector or element to attach the event to.
- */
-event(type, callback, selector) {
-    const target = selector
-        ? (typeof selector === "string"
-            ? document.querySelector(selector)
-            : selector)
-        : this.element;
+    /**
+     * Adds an event listener to the current or selected element.
+     * If the same type of event already exists, it removes the previous one and adds the new event.
+     * @param {string} type - The event type, e.g., 'click'.
+     * @param {Function} callback - The callback function for the event.
+     * @param {string|HTMLElement} [selector] - Optional selector or element to attach the event to.
+     */
+    event(type, callback, selector) {
+        const target = selector
+            ? (typeof selector === "string"
+                ? document.querySelector(selector)
+                : selector)
+            : this.element;
 
-    if (target) {
-        // Store the event listeners in a Map to manage them
-        if (!this.eventListeners) {
-            this.eventListeners = new Map();
+        if (target) {
+            // Store the event listeners in a Map to manage them
+            if (!this.eventListeners) {
+                this.eventListeners = new Map();
+            }
+
+            const existingEvent = this.eventListeners.get(type);
+            if (existingEvent) {
+                target.removeEventListener(type, existingEvent);
+                console.warn(`An existing ${type} event listener has been removed.`);
+            }
+
+            target.addEventListener(type, callback);
+            this.eventListeners.set(type, callback);
         }
-
-        const existingEvent = this.eventListeners.get(type);
-        if (existingEvent) {
-            target.removeEventListener(type, existingEvent);
-            console.warn(`An existing ${type} event listener has been removed.`);
-        }
-
-        target.addEventListener(type, callback);
-        this.eventListeners.set(type, callback);
     }
-}
 
     /**
      * Removes an event listener of the specified type from the current element.

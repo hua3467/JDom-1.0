@@ -13,9 +13,7 @@
 
         import JDom from './JDom1.0.js';
 
-        const util = new JDom({
-            tag: "div",
-        });
+        
 
         const btnGroup = new JDom({
             tag: "div",
@@ -57,7 +55,21 @@
             console.log("Button 2 clicked");
         });
 
-        util.hide("#title");
+        
+
+        btnGroup.style({
+            backgroundColor: "white",
+            padding: "10px",
+            border: "1px solid #ccc"
+        });
+
+        // You can even create an JDom instance as utility object. 
+        const doc = new JDom({
+            tag: "div",
+        });
+
+        // Then you can use the utility object to operate on any element in the document. 
+        // doc.hide("#title");
 
     </script>
 </body>

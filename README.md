@@ -34,7 +34,17 @@ const btnGroup = new JDom({
     tag: "div",
     attr: {
         id: "btnGroup",
-        className: "btn-group"
+        class: "btn-group",
+        style: {
+            backgroundColor: "red",
+            height: "24px",
+            width: "240px"
+        }
+    },
+    events: {
+        click: e => {
+            console.log("clicked");
+        }
     }
 }).render("#app");
 ```
@@ -46,7 +56,7 @@ const btnGroup = new JDom({
     tag: "div",
     attr: {
         id: "btnGroup",
-        className: "btn-group"
+        class: "btn-group"
     },
     children: [
         {
@@ -78,13 +88,35 @@ btnGroup.add({
     content: "Button 2",
     attr: {
         id: "btn2",
-        className: "btn",
+        class: "btn",
         style: {
             backgroundColor: "red",
             color: "white"
         }
     }
 });
+```
+
+### Change styles for the element
+
+You can change styles for the element
+
+```javascript
+btnGroup.style({
+            backgroundColor: "white",
+            padding: "10px",
+            border: "1px solid #ccc"
+        });
+```
+
+### Add or update event for the element
+
+You can add or udpate events for the element. If the event already exist in the element, the old event will be removed. 
+
+```javascript
+btnGroup.event("click", function(){
+            console.log("Button 2 clicked");
+        });
 ```
 
 ### Removing an Element
@@ -164,7 +196,7 @@ Removes the current element or the specified element from the DOM.
             tag: "div",
             attr: {
                 id: "btnGroup",
-                className: "btn-group"
+                class: "btn-group"
             }
         }).render("#app");
         
@@ -181,7 +213,7 @@ Removes the current element or the specified element from the DOM.
             content: "Button 2",
             attr: {
                 id: "btn2",
-                className: "btn",
+                class: "btn",
                 style: {
                     backgroundColor: "red",
                     color: "white"
