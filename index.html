@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="title">Hi</h1>
+    <div id="app"></div>
+    
+    <script type="module">
+
+        import JDom from './JDom1.0.js';
+
+        const util = new JDom({
+            tag: "div",
+        });
+
+        const btnGroup = new JDom({
+            tag: "div",
+            attr: {
+                id: "btnGroup",
+                class: "btn-group"
+            }
+        }).render("#app");
+
+        btnGroup.add({
+            tag: "button",
+            content: "Button 1",
+            attr: {
+                id: "btn1"
+            }
+        });
+
+
+
+        const btn2 = new JDom({
+            tag: "button",
+            content: "Button 2",
+            attr: {
+                id: "btn2",
+                class: "btn",
+                style: {
+                    backgroundColor: "blue",
+                    color: "white",
+                    display: "block"
+                }
+            }
+        });
+
+        btnGroup.add(btn2);
+
+        btnGroup.add("<button id='btn3'>Button 3</button>");
+
+        btn2.event("click", function(){
+            console.log("Button 2 clicked");
+        });
+
+        util.hide("#title");
+
+    </script>
+</body>
+</html>

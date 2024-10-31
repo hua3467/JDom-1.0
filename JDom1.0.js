@@ -109,7 +109,7 @@ export default class JDom {
     }
 
 
-     /**
+         /**
      * Appends new content to the current element.
      * 
      * @param {string|HTMLElement|JDom} newContent - The content to append. This can be a string, an existing HTML element, or a JDom instance.
@@ -117,7 +117,20 @@ export default class JDom {
      *                                      Use "after" to append as the last child, or "before" to insert as the first child.
      */
     add(newContent, position = "after") {
-        const newElement = this._createElement(newContent);
+        let newElement;
+    
+        if (newContent.isJDOM) {
+            newElement = newContent.element;
+        } else if (typeof newContent === "string") {
+            newElement = this._getDomFromString(newContent);
+        } else if (newContent instanceof HTMLElement) {
+            newElement = newContent;
+        } else if (typeof newContent === "object") {
+            newElement = this._createElement(newContent);
+        } else {
+            throw new Error("Invalid content type");
+        }
+    
         if (position === "after") {
             this.element.appendChild(newElement);
         } else if (position === "before") {
