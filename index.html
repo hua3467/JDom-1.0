@@ -14,7 +14,6 @@
         import JDom from './JDom1.0.js';
 
         
-
         const btnGroup = new JDom({
             tag: "div",
             attr: {
@@ -28,14 +27,34 @@
             content: "Button 1",
             attr: {
                 id: "btn1"
+            },
+            events: {
+                click: () => {
+                    console.log("Button 1 clicked");
+                },
+                mouseover: () => {
+                    console.log("Button 1 hovered");
+                }
             }
         });
 
-
-
         const btn2 = new JDom({
             tag: "button",
-            content: "Button 2",
+            content: "Hide Title",
+            attr: {
+                id: "btn2",
+                class: "btn",
+                style: {
+                    backgroundColor: "blue",
+                    color: "white",
+                    display: "block"
+                }
+            }
+        });
+
+        const btn3 = new JDom({
+            tag: "button",
+            content: "Show Title",
             attr: {
                 id: "btn2",
                 class: "btn",
@@ -48,12 +67,9 @@
         });
 
         btnGroup.add(btn2);
+        btnGroup.add(btn3);
 
         btnGroup.add("<button id='btn3'>Button 3</button>");
-
-        btn2.event("click", function(){
-            console.log("Button 2 clicked");
-        });
 
         
 
@@ -69,7 +85,14 @@
         });
 
         // Then you can use the utility object to operate on any element in the document. 
-        // doc.hide("#title");
+
+        btn2.event("click", () => {
+            doc.hide("#title");
+        });
+
+        btn3.event("click", () => {
+            doc.show("#title");
+        });
 
     </script>
 </body>

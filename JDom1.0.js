@@ -31,7 +31,7 @@ export default class JDom {
         // Set attributes
         if (node.attr) {
             for (const [key, value] of Object.entries(node.attr)) {
-                if (key.startsWith("data-")) {
+                if (key.startsWith("data_")) {
                     ele.dataset[key.substring(5)] = value;
                 } else if (key === "style" && typeof value === "object") {
                     Object.assign(ele.style, value);
